@@ -1,1 +1,0 @@
-/media/legoloaf17/3561-3830/Programming\ Folders/Rust/LEETCODE_PROM/target/debug/container_with_most_water: /media/legoloaf17/3561-3830/Programming\ Folders/Rust/LEETCODE_PROM/container_with_most_water/src/main.rs
