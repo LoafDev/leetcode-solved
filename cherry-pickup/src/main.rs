@@ -1,74 +1,54 @@
 struct Solution;
 
 impl Solution {
-    fn recur_path(grid: &Vec<Vec<i32>>, dp: &mut Vec<Vec<(i32, Vec<(usize, usize)>)>>, mut path: Vec<(usize, usize)>, i: usize, j: usize) -> (i32, Vec<(usize, usize)>) {
-        if i >= grid.len() || j >= grid.len() { return (i32::MIN, path); }
-        else if grid[i][j] == -1 { return (i32::MIN, path); }
-        else if dp[i][j].0 != -1 { return dp[i][j].clone(); }
-        else if i == grid.len() - 1 && j == grid.len() - 1 { return (grid[i][j], path); }
+    fn recur(x1: usize, y1: usize, x2: usize, is_end: &mut bool, grid: &Vec<Vec<i32>>, dp: &mut Vec<Vec<Vec<i32>>>) -> i32 {
+        let y2 = x1 + y1 - x2;
+        let n = grid.len();
 
-        let (mut right, mut down) = ((i32::MIN, Vec::new()), (i32::MIN, Vec::new()));
+        if x1 >= n || y1 >= n || x2 >= n || y2 >= n { return -1; }
+        else if grid[x1][y1] == -1 || grid[x2][y2] == -1 { return -1; }
+        else if x1 == n - 1 && y1 == n - 1 && x2 == n - 1 && y2 == n - 1 { *is_end = true; return grid[n-1][n-1]; }
+        else if dp[x1][y1][x2] != -1 { return dp[x1][y1][x2]; }
 
-        if j+1 < grid.len() && grid[i][j+1] != -1 {
-            path.push((i, j+1));
-            right = Self::recur_path(grid, dp, path.clone(), i, j+1);
-            path.pop();
-        }
-
-        if i+1 < grid.len() && grid[i+1][j] != -1 {
-            path.push((i+1, j));
-            down = Self::recur_path(grid, dp, path.clone(), i+1, j);
-            path.pop();
-        }
-
-        if right > down { dp[i][j] = (grid[i][j] + right.0, right.1); dp[i][j].clone() }
-        else { dp[i][j] = (grid[i][j] + down.0, down.1); dp[i][j].clone() }
-    }
-
-    fn recur_home(grid: &Vec<Vec<i32>>, dp: &mut Vec<Vec<i32>>, i: isize, j: isize) -> i32 {
-        if i < 0 || j < 0 { return i32::MIN; }
-        else if grid[i as usize][j as usize] == -1 { return i32::MIN; }
-        else if dp[i as usize][j as usize] != -1 { return dp[i as usize][j as usize]; }
-        else if i == 0 || j == 0 { return grid[i as usize][j as usize]; }
-
-        let (left, up) =
-        (
-            Self::recur_home(&grid, dp, i, j-1),
-            Self::recur_home(&grid, dp, i-1, j)
+        let val = if x1 != x2 || y1 != y2 { grid[x1][y1] + grid[x2][y2] } else { grid[x1][y1] };
+        let (
+            down_down,
+            down_right,
+            right_down,
+            right_right
+        ) = (
+            Self::recur(x1+1, y1, x2+1, is_end, grid, dp),
+            Self::recur(x1+1, y1, x2, is_end, grid, dp),
+            Self::recur(x1, y1+1, x2+1, is_end, grid, dp),
+            Self::recur(x1, y1+1, x2, is_end, grid, dp)
         );
+        let tp = [down_down, down_right, right_down, right_right].into_iter().max().unwrap();
 
-        dp[i as usize][j as usize] = grid[i as usize][j as usize] + std::cmp::max(left, up);
-        dp[i as usize][j as usize]
+        if tp != -1 { dp[x1][y1][x2] = val + tp; }
+        dp[x1][y1][x2]
     }
 
-    pub fn cherry_pickup(mut grid: Vec<Vec<i32>>) -> i32 {
-        if grid.len() == 1 { return grid[0][0]; }
+    pub fn cherry_pickup(grid: Vec<Vec<i32>>) -> i32 {
+        if grid.len() == 1 { return if grid[0][0] != -1 { grid[0][0] } else { 0 }; }
 
+        let mut is_end = false;
         let mut dp = vec![
-            vec![(-1, Vec::new()); grid.len()];
-            grid.len()
-        ];
-        let mut dp_home = vec![
-            vec![-1; grid.len()];
-            grid.len()
+            vec![
+                vec![-1; grid.len()]; grid.len()
+            ]; grid.len()
         ];
 
-        let a = Self::recur_path(&grid, &mut dp, Vec::new(), 0,0);
-        for i in &a.1 { grid[i.0][i.1] = 0; }
-        println!("{:?}", grid);
-        let b = Self::recur_home(&grid, &mut dp_home, (grid.len()-1) as isize , (grid.len()-1) as isize);
-
-        if a.0 + b >= 0 { a.0 + b } 
-        else { 0 }
+        let res = Self::recur(0,0,0, &mut is_end, &grid, &mut dp);
+        if is_end { res } else { 0 }
     }
 }
 
 fn main() {
-    println!("{}", Solution::cherry_pickup(
+    assert_eq!(5, Solution::cherry_pickup(
         vec![
-            vec![0,0,0],
-            vec![-1,-1,0],
-            vec![0,1,1]
+            vec![0,1,-1],
+            vec![1,0,-1],
+            vec![1,1,1]
         ]
     ));
 }
