@@ -1,25 +1,31 @@
 struct Solution;
 
 impl Solution {
-    fn recur(i: isize, j: isize, mut health: i32, dungeon: &Vec<Vec<i32>>) -> i32 {
-        if i < 0 || j < 0 || (health + dungeon[i as usize][j as usize] <= 0 && i != (dungeon.len() - 1) as isize && j != (dungeon[0].len() - 1) as isize) { return i32::MAX; }
-        else if i == 0 && j == 0 { return health.max(1); }
+    fn recur(i: usize, j: usize, dungeon: &Vec<Vec<i32>>, dp: &mut Vec<Vec<i32>>) -> i32 {
+        let (m,n) = (dungeon.len(), dungeon[0].len());
 
-        if i != (dungeon.len() - 1) as isize && j != (dungeon[0].len() - 1) as isize { health += dungeon[i as usize][j as usize]; }
+        if i >= m || j >= n { return i32::MAX; }
+        else if i == m - 1 && j == n - 1 { return if dungeon[i][j] <= 0 { 1 - dungeon[i][j] } else { 1 }; }
+        else if dp[i][j] != -1 { return dp[i][j]; }
+
         let (
             up,
             left
         ) = (
-            Self::recur(i-1,j, health, dungeon),
-            Self::recur(i,j-1, health, dungeon)
+            Self::recur(i+1,j, dungeon, dp),
+            Self::recur(i,j+1, dungeon, dp)
         );
 
-        std::cmp::min(up, left)
+        dp[i][j] = std::cmp::min(up, left) - dungeon[i][j];
+        if dp[i][j] <= 0 { dp[i][j] =  1; }
+        dp[i][j]
     }
 
     pub fn calculate_minimum_hp(dungeon: Vec<Vec<i32>>) -> i32 {
-        let (m,n) = (dungeon.len()-1, dungeon[0].len()-1);
-        Self::recur(m as isize, n as isize, 1, &dungeon)
+        Self::recur(0, 0, &dungeon, &mut vec![
+            vec![-1; dungeon[0].len()];
+            dungeon.len()
+        ])
     }
 }
 
