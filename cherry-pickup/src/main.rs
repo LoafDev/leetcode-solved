@@ -5,8 +5,7 @@ impl Solution {
         let y2 = x1 + y1 - x2;
         let n = grid.len();
 
-        if x1 >= n || y1 >= n || x2 >= n || y2 >= n { return -1; }
-        else if grid[x1][y1] == -1 || grid[x2][y2] == -1 { return -1; }
+        if x1 >= n || y1 >= n || x2 >= n || y2 >= n || grid[x1][y1] == -1 || grid[x2][y2] == -1 { return -1; }
         else if x1 == n - 1 && y1 == n - 1 && x2 == n - 1 && y2 == n - 1 { return grid[n-1][n-1]; }
         else if dp[x1][y1][x2] != -2 { return dp[x1][y1][x2]; }
 
