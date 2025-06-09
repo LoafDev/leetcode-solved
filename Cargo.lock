@@ -3,6 +3,10 @@
 version = 4
 
 [[package]]
+name = "add-two-numbers"
+version = "0.1.0"
+
+[[package]]
 name = "cherry-pickup"
 version = "0.1.0"
 
