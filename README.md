@@ -5,7 +5,7 @@ it is by no means considered good practice nor implemented best algorithm for ea
 ## Usage
 To view a problem's description consider this format: leetcode.com/problems/{problem's folder name}
 
-**note:**\
+**note:**
 - replace "_" with "-",
 - folder with leading number written as texts should be converted to number and remove the next underscore
 
