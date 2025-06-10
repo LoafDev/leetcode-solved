@@ -1,30 +1,58 @@
-#include<iostream>
-#include<string>
-#include<vector>
-using namespace std; 
+#include <iostream>
+#include <stack>
 
-class Solution {
+class Solution
+{
 public:
-    bool quick_check(char a, char b) {
-        if (a == '(' && b == ')') { return true; }
-        else if (a == '{' && b == '}') { return true; }
-        else if (a == '[' && b == ']') { return true; }
-        else { return false; }
-    }
-    
-    bool isValid(string s) {
-        int n = s.size();
-        vector<int> v;
+    bool isValid(std::string s)
+    {
+        std::stack<char> st;
+        char a[256];
 
+        a['('] = ')';
+        a['['] = ']';
+        a['{'] = '}';
 
-        for (auto i:s) {
-            if (v.empty()) { v.push_back(i); } 
-            else {
-                if (Solution::quick_check(v.back(), i)) { v.pop_back(); }
-                else { v.push_back(i); }
+        for (char &c : s)
+        {
+            if (c == '(' || c == '[' || c == '{')
+            {
+                st.push(c);
+            }
+            else
+            {
+                if (st.empty() || a[st.top()] != c)
+                {
+                    return false;
+                }
+                st.pop();
             }
         }
 
-        return v.empty();
+        if (!st.empty())
+        {
+            return false;
+        }
+
+        return true;
     }
 };
+
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    Solution sol;
+
+    if (sol.isValid("()[]{}"))
+    {
+        std::cout << "true\n";
+    }
+    else
+    {
+        std::cout << "no\n";
+    }
+
+    return 0;
+}
