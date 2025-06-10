@@ -8,9 +8,9 @@ impl Solution {
         let n = s.len();
         let mut dp = vec![0; n];
 
-        for i in 0..n {
+        /* for i in 0..n {
             dp[i] = std::cmp::max(dp[i], dp[i-j] + 1);
-        }
+        } */
        
         dp[n-1]
     }
