@@ -14,7 +14,7 @@ impl Solution {
         for i in s.as_bytes() {
             if v.is_empty() { v.push(i); }
             else {
-                if Self::quick_check(v[v.len()-1], i) { v.pop(); }
+                if Self::quick_check(v.last().unwrap(), i) { v.pop(); }
                 else { v.push(i); }
             }
         }
