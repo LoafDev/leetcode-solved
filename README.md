@@ -1,6 +1,6 @@
 # About leetcode solved
 This repository is mainly to save solutions for solved problems on Leetcode,\
-it is by no means considered good practice nor implemented best algorithm for each problems
+it is by no means considered good practice nor implemented best algorithm for every problems
 
 ## Usage
 To view a problem's description consider this format: leetcode.com/problems/{problem's folder name}
