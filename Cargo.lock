@@ -35,6 +35,10 @@ name = "longest_substring_without_repeating_character"
 version = "0.1.0"
 
 [[package]]
+name = "maximum-difference-between-adjacent-elements-in-a-circular-array"
+version = "0.1.0"
+
+[[package]]
 name = "maximum-difference-between-even-and-odd-frequency-i"
 version = "0.1.0"
 
