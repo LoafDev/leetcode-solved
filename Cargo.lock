@@ -39,6 +39,10 @@ name = "maximum-difference-between-even-and-odd-frequency-i"
 version = "0.1.0"
 
 [[package]]
+name = "maximum-difference-between-even-and-odd-frequency-ii"
+version = "0.1.0"
+
+[[package]]
 name = "minimum_path_sum"
 version = "0.1.0"
 
