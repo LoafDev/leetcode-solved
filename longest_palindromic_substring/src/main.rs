@@ -33,5 +33,6 @@ impl Solution {
 }
 
 fn main() {
-    println!("{}", Solution::longest_palindrome("adjkhkahd".to_string()));
+    assert_eq!("bab", Solution::longest_palindrome("babad".to_string()));
+    assert_eq!("bb", Solution::longest_palindrome("cbbd".to_string()));
 }

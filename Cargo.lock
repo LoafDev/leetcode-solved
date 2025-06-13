@@ -63,6 +63,10 @@ name = "number-of-beautiful-partitions"
 version = "0.1.0"
 
 [[package]]
+name = "palindromic-substrings"
+version = "0.1.0"
+
+[[package]]
 name = "powx_n"
 version = "0.1.0"
 
